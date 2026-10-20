@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAKERS - Digital Menu</title>
+    <!-- Tailwind CSS for modern, clean styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- QRCode.js for live QR Code generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500;600;700&display=swap');
+        body { font-family: 'Poppins', sans-serif; background-color: #f9f8f6; color: #2d2d2d; }
+        .brand-font { font-family: 'Playfair Display', serif; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- Header -->
+    <header class="bg-stone-900 text-stone-100 py-6 px-4 shadow-md text-center relative">
+        <h1 class="brand-font text-4xl tracking-wider text-amber-500">CAKERS</h1>
+        <p class="text-xs tracking-widest uppercase text-stone-400 mt-1">Bakery, Café & Chinese Counter • Est. 1986</p>
+        <p class="text-xs text-amber-400 font-medium mt-2">100% Eggless Cakes & Pastries</p>
+    </header>
+
+    <!-- Controls: Search & QR Toggle -->
+    <div class="max-w-3xl mx-auto w-full px-4 py-4 flex flex-col sm:flex-row gap-3 items-center justify-between">
+        <input type="text" id="searchInput" placeholder="Search items (e.g. Momos, Burger, Shake)..." 
+            class="w-full sm:w-2/3 px-4 py-2 rounded-lg border border-stone-300 focus:outline-none focus:ring-2 focus:ring-amber-500 text-sm bg-white shadow-sm"
+            onkeyup="filterMenu()">
+        <button onclick="toggleQRModal()" class="w-full sm:w-auto bg-amber-600 hover:bg-amber-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition shadow-sm flex items-center justify-center gap-2">
+            <span>📱 Generate Live QR</span>
+        </button>
+    </div>
+
+    <!-- Main Menu Content Container -->
+    <main class="max-w-3xl mx-auto w-full px-4 flex-grow pb-12" id="menuContainer">
+        
+        <!-- SECTION: CAKERS VALUE COMBOS -->
+        <section class="mb-8 menu-category" data-category="combos">
+            <h2 class="brand-font text-2xl text-stone-800 border-b-2 border-amber-500 pb-1 mb-4">Cakers Value Combos</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div class="bg-white p-3 rounded-lg shadow-sm border border-stone-200 flex justify-between items-center"><span class="font-medium text-sm">Hot Coffee & Grilled Sandwich</span><span class="text-amber-700 font-bold">₹99</span></div>
+                <div class="bg-white p-3 rounded-lg shadow-sm border border-stone-200 flex justify-between items-center"><span class="font-medium text-sm">Spicy Veg Burger & Cold Coffee</span><span class="text-amber-700 font-bold">₹119</span></div>
+                <div class="bg-white p-3 rounded-lg shadow-sm border border-stone-200 flex justify-between items-center"><span class="font-medium text-sm">Peri Peri Fries & Lemonade</span><span class="text-amber-700 font-bold">₹139</span></div>
+                <div class="bg-white p-3 rounded-lg shadow-sm border border-stone-200 flex justify-between items-center"><span class="font-medium text-sm">Veg Tikki Wrap & Virgin Mojito</span><span class="text-amber-700 font-bold">₹129</span></div>
+                <div class="bg-white p-3 rounded-lg shadow-sm border border-stone-200 flex justify-between items-center"><span class="font-medium text-sm">Chicken Tikki Wrap & Ice Tea</span><span class="text-amber-700 font-bold">₹169</span></div>
+            </div>
+        </section>
+
+        <!-- SECTION: CAKES & PASTRIES -->
+        <section class="mb-8 menu-category" data-category="cakes">
+            <h2 class="brand-font text-2xl text-stone-800 border-b-2 border-amber-500 pb-1 mb-4">Cakes & Pastries</h2>
+            <div class="bg-white rounded-lg shadow-sm border border-stone-200 overflow-hidden mb-4">
+                <div class="bg-stone-100 px-4 py-2 font-semibold text-xs text-stone-600 uppercase tracking-wider">Cakes (1/2 Kg / 1 Kg)</div>
+                <div class="divide-y divide-stone-100 text-sm">
+                    <div class="px-4 py-3 flex justify-between items-center"><span>Vanilla</span><span class="font-medium text-amber-700">₹350 / ₹700</span></div>
+                    <div class="px-4 py-3 flex justify-between items-center"><span>Strawberry</span><span class="font-medium text-amber-700">₹350 / ₹700</span></div>
+                    <div class="px-4 py-3 flex justify-between items-center"><span>Pineapple</span><span class="font-medium text-amber-700">₹400 / ₹800</span></div>
+                    <div class="px-4 py-3 flex justify-between items-center"><span>Light Chocolate</span><span class="font-medium text-amber-700">₹400 / ₹800</span></div>
+                    <div class="px-4 py-3 flex justify-between items-center"><span>Choco chip</span><span class="font-medium text-amber-700">₹450 / ₹900</span></div>
+                    <div class="px-4 py-3 flex justify-between items-center"><span>Butterscotch</span><span class="font-medium text-amber-700">₹450 / ₹900</span></div>
+                    <div class="px-4 py-3 flex justify-between items-center"><span>Blackforest</span><span class="font-medium text-amber-700">₹400 / ₹800</span></div>
+                    <div class="px-4 py-3 flex justify-between items-center"><span>Truffle</span><span class="font-medium text-amber-700">₹600 / ₹1200</span></div>
+                    <div class="px-4 py-3 flex justify-between items-center"><span>Fresh fruit (Pre order only)</span><span class="font-medium text-amber-700">₹500 / ₹1000</span></div>
+                    <div class="px-4 py-3 flex justify-between items-center"><span>Singhannia (Pre order only)</span><span class="font-medium text-amber-700">₹650 / ₹1300</span></div>
+                </div>
+            </div>
+            <div class="bg-white rounded-lg shadow-sm border border-stone-200 overflow-hidden">
+                <div class="bg-stone-100 px-4 py-2 font-semibold text-xs text-stone-600 uppercase tracking-wider">Pastries</div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 divide-y sm:divide-y-0 sm:divide-x divide-stone-100 text-sm">
+                    <div class="divide-y divide-stone-100">
+                        <div class="px-4 py-2.5 flex justify-between items-center"><span>Vanilla</span><span class="font-medium text-amber-700">₹40</span></div>
+                        <div class="px-4 py-2.5 flex justify-between items-center"><span>Strawberry</span><span class="font-medium text-amber-700">₹40</span></div>
+                        <div class="px-4 py-2.5 flex justify-between items-center"><span>Pineapple</span><span class="font-medium text-amber-700">₹50</span></div>
+                        <div class="px-4 py-2.5 flex justify-between items-center"><span>Butterscotch</span><span class="font-medium text-amber-700">₹50</span></div>
+                        <div class="px-4 py-2.5 flex justify-between items-center"><span>Choco chip</span><span class="font-medium text-amber-700">₹50</span></div>
+                        <div class="px-4 py-2.5 flex justify-between items-center"><span>Chocolate Eclairs</span><span class="font-medium text-amber-700">₹50</span></div>
+                        <div class="px-4 py-2.5 flex justify-between items-center"><span>Chocolate Donut</span><span class="font-medium text-amber-700">₹50</span></div>
+                    </div>
+                    <div class="divide-y divide-stone-100">
+                        <div class="px-4 py-2.5 flex justify-between items-center"><span>Cream Roll</span><span class="font-medium text-amber-700">₹40</span></div>
+                        <div class="px-4 py-2.5 flex justify-between items-center"><span>Chocolate Cream Roll</span><span class="font-medium text-amber-700">₹50</span></div>
+                        <div class="px-4 py-2.5 flex justify-between items-center"><span>Blackforest</span><span class="font-medium text-amber-700">₹60</span></div>
+                        <div class="px-4 py-2.5 flex justify-between items-center"><span>Chocolate Singhania</span><span class="font-medium text-amber-700">₹80</span></div>
+                        <div class="px-4 py-2.5 flex justify-between items-center"><span>Walnut Brownie</span><span class="font-medium text-amber-700">₹80</span></div>
+                        <div class="px-4 py-2.5 flex justify-between items-center"><span>Truffle</span><span class="font-medium text-amber-700">₹80</span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: MOMOS -->
+        <section class="mb-8 menu-category" data-category="momos">
+            <h2 class="brand-font text-2xl text-stone-800 border-b-2 border-amber-500 pb-1 mb-4">Momos (Veg / Paneer / Chicken)</h2>
+            <div class="bg-white rounded-lg shadow-sm border border-stone-200 overflow-hidden">
+                <div class="grid grid-cols-4 bg-stone-100 px-4 py-2 text-xs font-semibold text-stone-600 uppercase">
+                    <span>Preparation</span><span>Veg</span><span>Paneer</span><span>Chicken</span>
+                </div>
+                <div class="divide-y divide-stone-100 text-sm">
+                    <div class="grid grid-cols-4 px-4 py-2.5 items-center"><span>Steamed</span><span class="font-medium text-amber-700">₹80</span><span class="font-medium text-amber-700">₹120</span><span class="font-medium text-amber-700">₹120</span></div>
+                    <div class="grid grid-cols-4 px-4 py-2.5 items-center"><span>Fried</span><span class="font-medium text-amber-700">₹90</span><span class="font-medium text-amber-700">₹130</span><span class="font-medium text-amber-700">₹130</span></div>
+                    <div class="grid grid-cols-4 px-4 py-2.5 items-center"><span>Pan Grilled</span><span class="font-medium text-amber-700">₹100</span><span class="font-medium text-amber-700">₹140</span><span class="font-medium text-amber-700">₹140</span></div>
+                    <div class="grid grid-cols-4 px-4 py-2.5 items-center"><span>Kurkure</span><span class="font-medium text-amber-700">₹110</span><span class="font-medium text-amber-700">₹160</span><span class="font-medium text-amber-700">₹160</span></div>
+                    <div class="grid grid-cols-4 px-4 py-2.5 items-center"><span>Gravy</span><span class="font-medium text-amber-700">₹110</span><span class="font-medium text-amber-700">₹160</span><span class="font-medium text-amber-700">₹160</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: CHINESE COUNTER & STARTERS -->
+        <section class="mb-8 menu-category" data-category="chinese">
+            <h2 class="brand-font text-2xl text-stone-800 border-b-2 border-amber-500 pb-1 mb-4">Chinese Counter & Starters</h2>
+            <div class="bg-white rounded-lg shadow-sm border border-stone-200 overflow-hidden mb-4">
+                <div class="grid grid-cols-3 bg-stone-100 px-4 py-2 text-xs font-semibold text-stone-600 uppercase">
+                    <span>Item</span><span>Regular</span><span>Full</span>
+                </div>
+                <div class="divide-y divide-stone-100 text-sm">
+                    <div class="grid grid-cols-3 px-4 py-2.5 items-center"><span>Chilli Paneer</span><span class="font-medium text-amber-700">₹120</span><span class="font-medium text-amber-700">₹220</span></div>
+                    <div class="grid grid-cols-3 px-4 py-2.5 items-center"><span>Chilli Chicken</span><span class="font-medium text-amber-700">₹120</span><span class="font-medium text-amber-700">₹220</span></div>
+                    <div class="grid grid-cols-3 px-4 py-2.5 items-center"><span>Chicken Manchurian</span><span class="font-medium text-amber-700">₹120</span><span class="font-medium text-amber-700">₹220</span></div>
+                    <div class="grid grid-cols-3 px-4 py-2.5 items-center"><span>Chicken Sweet n Sour</span><span class="font-medium text-amber-700">₹130</span><span class="font-medium text-amber-700">₹230</span></div>
+                    <div class="grid grid-cols-3 px-4 py-2.5 items-center"><span>Black Pepper Chicken</span><span class="font-medium text-amber-700">₹150</span><span class="font-medium text-amber-700">₹250</span></div>
+                </div>
+            </div>
+            <div class="bg-white rounded-lg shadow-sm border border-stone-200 overflow-hidden">
+                <div class="bg-stone-100 px-4 py-2 font-semibold text-xs text-stone-600 uppercase tracking-wider">Starters & Dry Items</div>
+                <div class="divide-y divide-stone-100 text-sm grid grid-cols-1 sm:grid-cols-2">
+                    <div class="px-4 py-2.5 flex justify-between items-center"><span>Chilli Potato</span><span class="font-medium text-amber-700">₹140</span></div>
+                    <div class="px-4 py-2.5 flex justify-between items-center"><span>Honey Chilli Potato</span><span class="font-medium text-amber-700">₹160</span></div>
+                    <div class="px-4 py-2.5 flex justify-between items-center"><span>Veg Spring Rolls</span><span class="font-medium text-amber-700">₹110</span></div>
+                    <div class="px-4 py-2.5 flex justify-between items-center"><span>Chicken Spring Rolls</span><span class="font-medium text-amber-700">₹140</span></div>
+                    <div class="px-4 py-2.5 flex justify-between items-center"><span>Veg Manchurian - Dry</span><span class="font-medium text-amber-700">₹150</span></div>
+                    <div class="px-4 py-2.5 flex justify-between items-center"><span>Chilly Mushroom - Dry</span><span class="font-medium text-amber-700">₹170</span></div>
+                    <div class="px-4 py-2.5 flex justify-between items-center"><span>Crispy Corn Salt n Pepper</span><span class="font-medium text-amber-700">₹150</span></div>
+                    <div class="px-4 py-2.5 flex justify-between items-center"><span>Chilli Paneer - Dry</span><span class="font-medium text-amber-700">₹220</span></div>
+                    <div class="px-4 py-2.5 flex justify-between items-center"><span>Chilli Chicken - Dry</span><span class="font-medium text-amber-700">₹220</span></div>
+                    <div class="px-4 py-2.5 flex justify-between items-center"><span>Chicken Manchurian Dry</span><span class="font-medium text-amber-700">₹220</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: BURGERS & WRAPS -->
+        <section class="mb-8 menu-category" data-category="burgers">
+            <h2 class="brand-font text-2xl text-stone-800 border-b-2 border-amber-500 pb-1 mb-4">Burgers, Wraps & Quick Bites</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="bg-white rounded-lg shadow-sm border border-stone-200 overflow-hidden">
+                    <div class="bg-stone-100 px-4 py-2 font-semibold text-xs text-stone-600 uppercase">Burgers</div>
+                    <div class="divide-y divide-stone-100 text-sm">
+                        <div class="px-4 py-2 flex justify-between"><span>Crispy Veg Tikki</span><span class="text-amber-700 font-medium">₹50</span></div>
+                        <div class="px-4 py-2 flex justify-between"><span>Spicy Veg Tikki</span><span class="text-amber-700 font-medium">₹60</span></div>
+                        <div class="px-4 py-2 flex justify-between"><span>Veg Double Tikki</span><span class="text-amber-700 font-medium">₹90</span></div>
+                        <div class="px-4 py-2 flex justify-between"><span>Crispy Paneer</span><span class="text-amber-700 font-medium">₹90</span></div>
+                        <div class="px-4 py-2 flex justify-between"><span>Grilled Cheese</span><span class="text-amber-700 font-medium">₹90</span></div>
+                        <div class="px-4 py-2 flex justify-between"><span>Pizza Burger</span><span class="text-amber-700 font-medium">₹70</span></div>
+                        <div class="px-4 py-2 flex justify-between"><span>Egg Burger</span><span class="text-amber-700 font-medium">₹70</span></div>
+                        <div class="px-4 py-2 flex justify-between"><span>Crispy Chicken</span><span class="text-amber-700 font-medium">₹90</span></div>
+                        <div class="px-4 py-2 flex justify-between"><span>Chicken Cheese</span><span class="text-amber-700 font-medium">₹110</span></div>
+                        <div class="px-4 py-2 flex justify-between"><span>Spicy Chicken</span><span class="text-amber-700 font-medium">₹100</span></div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-lg shadow-sm border border-stone-200 overflow-hidden">
+                    <div class="bg-stone-100 px-4 py-2 font-semibold text-xs text-stone-600 uppercase">Wraps & Quick Bites</div>
+                    <div class="divide-y divide-stone-100 text-sm">
+                        <div class="px-4 py-2 flex justify-between"><span>Veg Tikki Wrap</span><span class="text-amber-700 font-medium">₹70</span></div>
+                        <div class="px-4 py-2 flex justify-between"><span>Paneer Tikki Wrap</span><span class="text-amber-700 font-medium">₹100</span></div>
+                        <div class="px-4 py-2 flex justify-between"><span>Tandoori Paneer Wrap</span><span class="text-amber-700 font-medium">₹100</span></div>
+                        <div class="px-4 py-2 flex justify-between"><span>Chicken Tikki Wrap</span><span class="text-amber-700 font-medium">₹100</span></div>
+                        <div class="px-4 py-2 flex justify-between"><span>Tandoori Chicken Wrap</span><span class="text-amber-700 font-medium">₹100</span></div>
+                        <div class="px-4 py-2 flex justify-between"><span>Bun Maska</span><span class="text-amber-700 font-medium">₹50</span></div>
+                        <div class="px-4 py-2 flex justify-between"><span>Samosa</span><span class="text-amber-700 font-medium">₹20</span></div>
+                        <div class="px-4 py-2 flex justify-between"><span>Veg Patty / Paneer Patty</span><span class="text-amber-700 font-medium">₹40 / ₹50</span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: PIZZA & PASTAS -->
+        <section class="mb-8 menu-category" data-category="pizza">
+            <h2 class="brand-font text-2xl text-stone-800 border-b-2 border-amber-500 pb-1 mb-4">Pizzas & Pastas</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="bg-white rounded-lg shadow-sm border border-stone-200 overflow-hidden">
+                    <div class="bg-stone-100 px-4 py-2 font-semibold text-xs text-stone-600 uppercase">Pizzas</div>
+                    <div class="divide-y divide-stone-100 text-sm">
+                        <div class="px-4 py-2.5 flex justify-between"><span>Plain Cheese</span><span class="text-amber-700 font-medium">₹100</span></div>
+                        <div class="px-4 py-2.5 flex justify-between"><span>Tomato / Onion / Capsicum</span><span class="text-amber-700 font-medium">₹120</span></div>
+                        <div class="px-4 py-2.5 flex justify-between"><span>Cheese Corn Pizza</span><span class="text-amber-700 font-medium">₹120</span></div>
+                        <div class="px-4 py-2.5 flex justify-between"><span>Veg Loaded Pizza</span><span class="text-amber-700 font-medium">₹140</span></div>
+                        <div class="px-4 py-2.5 flex justify-between"><span>Tandoori Paneer Pizza</span><span class="text-amber-700 font-medium">₹170</span></div>
+                        <div class="px-4 py-2.5 flex justify-between"><span>Tandoori Chicken Pizza</span><span class="text-amber-700 font-medium">₹180</span></div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-lg shadow-sm border border-stone-200 overflow-hidden">
+                    <div class="bg-stone-100 px-4 py-2 font-semibold text-xs text-stone-600 uppercase">Pasta (Veg / Chicken)</div>
+                    <div class="divide-y divide-stone-100 text-sm">
+                        <div class="px-4 py-2.5 flex justify-between"><span>Red Sauce</span><span class="text-amber-700 font-medium">₹140 / ₹170</span></div>
+                        <div class="px-4 py-2.5 flex justify-between"><span>White Sauce</span><span class="text-amber-700 font-medium">₹170 / ₹200</span></div>
+                        <div class="px-4 py-2.5 flex justify-between"><span>Pink Sauce</span><span class="text-amber-700 font-medium">₹180 / ₹220</span></div>
+                        <div class="px-4 py-2.5 flex justify-between"><span>Peri Peri Sauce</span><span class="text-amber-700 font-medium">₹180 / ₹220</span></div>
+                        <div class="px-4 py-2.5 flex justify-between"><span>Tandoori Sauce</span><span class="text-amber-700 font-medium">₹190 / ₹230</span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: BEVERAGES & SHAKES -->
+        <section class="mb-8 menu-category" data-category="beverages">
+            <h2 class="brand-font text-2xl text-stone-800 border-b-2 border-amber-500 pb-1 mb-4">Tea, Coffee, Shakes & Coolers</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="bg-white rounded-lg shadow-sm border border-stone-200 overflow-hidden">
+                    <div class="bg-stone-100 px-4 py-2 font-semibold text-xs text-stone-600 uppercase">Chai & Coffee</div>
+                    <div class="divide-y divide-stone-100 text-sm">
+                        <div class="px-4 py-2 flex justify-between"><span>Kadak Chai</span><span class="text-amber-700 font-medium">₹20</span></div>
+                        <div class="px-4 py-2 flex justify-between"><span>Elaichi / Adrak Chai</span><span class="text-amber-700 font-medium">₹25</span></div>
+                        <div class="px-4 py-2 flex justify-between"><span>Masala / Adrak Elaichi Chai</span><span class="text-amber-700 font-medium">₹30</span></div>
+                        <div class="px-4 py-2 flex justify-between"><span>Hot Coffee</span><span class="text-amber-700 font-medium">₹50</span></div>
+                        <div class="px-4 py-2 flex justify-between"><span>Cold Coffee</span><span class="text-amber-700 font-medium">₹70</span></div>
+                        <div class="px-4 py-2 flex justify-between"><span>Cold Coffee with Ice Cream / Mocha</span><span class="text-amber-700 font-medium">₹90</span></div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-lg shadow-sm border border-stone-200 overflow-hidden">
+                    <div class="bg-stone-100 px-4 py-2 font-semibold text-xs text-stone-600 uppercase">Shakes & Coolers</div>
+                    <div class="divide-y divide-stone-100 text-sm">
+                        <div class="px-4 py-2 flex justify-between"><span>Vanilla / Strawberry / Mango Shake</span><span class="text-amber-700 font-medium">₹70</span></div>
+                        <div class="px-4 py-2 flex justify-between"><span>Kitkat / Oreo Shake</span><span class="text-amber-700 font-medium">₹100</span></div>
+                        <div class="px-4 py-2 flex justify-between"><span>Chocolate Brownie Shake</span><span class="text-amber-700 font-medium">₹120</span></div>
+                        <div class="px-4 py-2 flex justify-between"><span>Lemon / Peach / Green Apple Ice Tea</span><span class="text-amber-700 font-medium">₹70 - ₹80</span></div>
+                        <div class="px-4 py-2 flex justify-between"><span>Mojitos (Virgin / Apple / Melon / Blue)</span><span class="text-amber-700 font-medium">₹70 - ₹80</span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-stone-900 text-stone-400 py-6 px-4 text-center text-xs mt-auto">
+        <p class="text-stone-300 font-medium mb-1">Call for Orders: 8130856366 | 7982852390</p>
+        <p>© 2026 CAKERS • Delhi • www.cakersbysachdevas.in</p>
+    </footer>
+
+    <!-- QR Code Modal / Drawer -->
+    <div id="qrModal" class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-xl max-w-sm w-full p-6 text-center shadow-2xl relative">
+            <button onclick="toggleQRModal()" class="absolute top-3 right-3 text-stone-400 hover:text-stone-700 font-bold text-lg">&times;</button>
+            <h3 class="brand-font text-2xl text-stone-800 mb-2">Live QR Generator</h3>
+            <p class="text-xs text-stone-500 mb-4">Enter your published website or GitHub Pages URL below to generate your scannable menu QR code:</p>
+            
+            <input type="text" id="urlInput" value="https://cakersbysachdevas.in" 
+                class="w-full px-3 py-2 border border-stone-300 rounded-lg text-sm mb-4 focus:outline-none focus:ring-2 focus:ring-amber-500"
+                placeholder="https://your-site.github.io">
+            
+            <button onclick="generateQRCode()" class="w-full bg-amber-600 hover:bg-amber-700 text-white py-2 rounded-lg text-sm font-medium transition mb-4">
+                Update QR Code
+            </button>
+
+            <div id="qrcode" class="flex justify-center p-2 bg-stone-50 border border-stone-200 rounded-lg inline-block mx-auto mb-4"></div>
+            <p class="text-[11px] text-stone-400">Right-click or screenshot the QR code to print it for tables or counters.</p>
+        </div>
+    </div>
+
+    <script>
+        // Search Filter Logic
+        function filterMenu() {
+            let input = document.getElementById('searchInput').value.toLowerCase();
+            let categories = document.getElementsByClassName('menu-category');
+            
+            for (let i = 0; i < categories.length; i++) {
+                let text = categories[i].innerText.toLowerCase();
+                if (text.includes(input)) {
+                    categories[i].style.display = "block";
+                } else {
+                    categories[i].style.display = "none";
+                }
+            }
+        }
+
+        // QR Modal Toggle & Generation
+        function toggleQRModal() {
+            let modal = document.getElementById('qrModal');
+            if (modal.classList.contains('hidden')) {
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+                generateQRCode(); // initial render
+            } else {
+                modal.classList.remove('flex');
+                modal.classList.add('hidden');
+            }
+        }
+
+        function generateQRCode() {
+            let url = document.getElementById('urlInput').value;
+            document.getElementById('qrcode').innerHTML = "";
+            new QRCode(document.getElementById("qrcode"), {
+                text: url,
+                width: 180,
+                height: 180,
+                colorDark: "#1c1917",
+                colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.H
+            });
+        }
+    </script>
+</body>
+</html>
